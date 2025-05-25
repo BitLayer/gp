@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ghatpar - Online Grocery Store</title>
+
+  <!-- Bootstrap & Animate.css -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+
+  <!-- Custom Styles -->
+  <style>
+    body {
+      background-image: url('image/LandingG.png');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+      margin: 0;
+      padding: 0;
+    }
+
+    header {
+      background-color: #ffffff;
+      z-index: 1000;
+    }
+
+    .hero-section {
+      background-color: rgba(255, 255, 255, 0.95);
+      padding: 5rem 1rem;
+      text-align: center;
+    }
+
+    .hero-section i {
+      display: block;
+      margin-bottom: 0.5rem;
+    }
+    .hero-section {
+      padding-top: 100px; /* pushes content down */
+      /* or */
+      margin-top: 100px;  /* adds space above the section */
+    }
+
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header class="py-1 shadow">
+  <div class="container position-relative">
+    <nav class="navbar navbar-expand-lg">
+      <!-- Centered Brand -->
+      <a class="navbar-brand text-dark fw-bold position-absolute start-50 translate-middle-x" href="index.html">Ghatpar.com</a>
+
+      <!-- Toggler -->
+      <button class="navbar-toggler text-white" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <!-- Collapsible content -->
+      <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+        <button class="btn btn-outline-primary me-2" data-bs-toggle="modal" data-bs-target="#authModal">Login</button>
+      </div>
+    </nav>
+  </div>
+</header>
+
+
+  <!-- Hero Section -->
+  <section class="hero-section" style="background-color: transparent;">
+    <div class="container">
+      <h2 class="text-dark fw-bold mb-3">Groceries at Your Door in 30 Minutes!</h2>
+      <p class="text-muted mb-4">Fresh, fast, and reliable delivery—right from your neighborhood store.</p>
+
+      <div class="row justify-content-center mb-4">
+        <div class="col-md-2 col-6 mb-3">
+          <i class="fas fa-clock fa-2x text-success"></i>
+          <p class="fw-bold mb-0">30 Min Delivery</p>
+        </div>
+        <div class="col-md-2 col-6 mb-3">
+          <i class="fas fa-carrot fa-2x text-success"></i>
+          <p class="fw-bold mb-0">Fresh Items</p>
+        </div>
+        <div class="col-md-2 col-6 mb-3">
+          <i class="fas fa-shield-alt fa-2x text-success"></i>
+          <p class="fw-bold mb-0">Secure Payment</p>
+        </div>
+        <div class="col-md-2 col-6 mb-3">
+          <i class="fas fa-store fa-2x text-success"></i>
+          <p class="fw-bold mb-0">Local Sourcing</p>
+        </div>
+        <div class="col-md-2 col-6 mb-3">
+          <i class="fas fa-thumbs-up fa-2x text-success"></i>
+          <p class="fw-bold mb-0">Quality Guaranteed</p>
+        </div>
+      </div>
+      <div class="d-flex justify-content-center mt-4">
+  <button class="btn btn-primary btn-lg d-flex align-items-center justify-content-center" data-bs-toggle="modal" data-bs-target="#authModal" style="gap: 10px;">
+    <img src="image/cartw.png" alt="Shopping Cart" style="max-width: 60px; height: auto;">
+    Start Shopping
+  </button>
+</div>
+
+
+      <p class="text-muted mt-2">Join thousands of happy customers!</p>
+    </div>
+  </section>
+
+  <!-- Auth Modal -->
+<div class="modal fade" id="authModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Login</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+
+  <!-- Login Form -->
+  <div id="loginForm">
+  <form>
+    <div class="mb-3">
+      <input type="email" class="form-control" placeholder="Email" required>
+    </div>
+    <div class="mb-3">
+      <input type="password" class="form-control" placeholder="Password" required>
+    </div>
+
+    <!-- Remember Me Checkbox -->
+    <div class="form-check mb-3">
+      <input class="form-check-input" type="checkbox" id="rememberMe" name="rememberMe">
+      <label class="form-check-label" for="rememberMe">
+        Remember Me
+      </label>
+    </div>
+
+    <button type="submit" class="btn btn-primary w-100">Login</button>
+  </form>
+  <div class="text-center mt-3">
+    <a href="#!" class="text-decoration-none" onclick="showForm('signupForm')">
+      Create an Account
+    </a><br>
+    <a href="#!" class="text-decoration-none" onclick="showForm('forgotForm')">
+      Forgot Password?
+    </a>
+  </div>
+  </div>
+
+<!-- Signup Form -->
+<div id="signupForm" class="d-none">
+  <form id="signupFormElement">
+    <div class="mb-3">
+      <label for="fullname" class="form-label text-dark fw-bold">
+        <i class="fas fa-user"></i> Full Name
+      </label>
+      <input type="text" class="form-control shadow-sm border-success" id="fullname" required>
+    </div>
+    <div class="mb-3">
+      <label for="email" class="form-label text-dark fw-bold">
+        <i class="fas fa-envelope"></i> Email
+      </label>
+      <input type="email" class="form-control shadow-sm border-success" id="email" required>
+    </div>
+    <div class="mb-3">
+      <label for="number" class="form-label text-dark fw-bold">
+        <i class="fas fa-phone"></i> Phone Number
+      </label>
+      <div class="input-group shadow-sm border-success">
+        <select class="form-select" style="max-width: 150px;" aria-label="Country code">
+          <option value="+1" selected>+1 (US)</option>
+          <option value="+91">+91 (IN)</option>
+          <option value="+44">+44 (UK)</option>
+          <option value="+61">+61 (AU)</option>
+          <option value="+880">+880 (BD)</option>
+        </select>
+        <input type="tel" class="form-control" id="number" placeholder="Enter your phone number" required>
+      </div>
+    </div>
+    <form id="signupFormElement">
+  <!-- Password Field -->
+<div class="mb-3 position-relative">
+  <label for="password" class="form-label text-dark fw-bold">
+    <i class="fas fa-lock"></i> Password
+  </label>
+  <div class="input-group">
+    <input type="password" class="form-control shadow-sm border-dark" id="password" required>
+    <button type="button" class="btn btn-outline-secondary" id="togglePassword">
+      <i class="fas fa-eye"></i>
+    </button>
+  </div>
+</div>
+
+<!-- Confirm Password Field -->
+<div class="mb-3 position-relative">
+  <label for="confirmPassword" class="form-label text-dark fw-bold">
+    <i class="fas fa-lock"></i> Confirm Password
+  </label>
+  <div class="input-group">
+    <input type="password" class="form-control shadow-sm border-dark" id="confirmPassword" required>
+    <button type="button" class="btn btn-outline-secondary" id="toggleConfirmPassword">
+      <i class="fas fa-eye"></i>
+    </button>
+  </div>
+  <div id="passwordMatchWarning" class="text-danger small mt-1" style="display: none;">
+    Passwords do not match
+  </div>
+</div>
+
+
+  <button type="submit" class="btn btn-primary w-100">Sign Up</button>
+</form>
+
+  <div class="text-center mt-3">
+    Already have an account? 
+    <a href="#!" class="text-decoration-none" onclick="showForm('loginForm')">Login</a>
+  </div>
+</div>
+
+
+          <!-- Forgot Password Form -->
+          <div id="forgotForm" class="d-none">
+            <form>
+              <div class="mb-3">
+                <input type="email" class="form-control" placeholder="Enter your email" required>
+              </div>
+              <button type="submit" class="btn btn-primary w-100">Reset Password</button>
+            </form>
+            <div class="text-center mt-3">
+              <a href="#!" class="text-decoration-none" onclick="showForm('loginForm')">Back to Login</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+</div>
+
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    function showForm(formId) {
+      document.querySelectorAll('.modal-body > div').forEach(form => {
+        form.classList.add('d-none');
+      });
+      document.getElementById(formId).classList.remove('d-none');
+    }
+  </script>
+  <script>
+  const passwordInput = document.getElementById("password");
+  const confirmInput = document.getElementById("confirmPassword");
+  const togglePassword = document.getElementById("togglePassword");
+  const toggleConfirmPassword = document.getElementById("toggleConfirmPassword");
+  const warning = document.getElementById("passwordMatchWarning");
+  const signupForm = document.getElementById("signupFormElement");
+
+  // Password visibility toggle
+  togglePassword.addEventListener("click", function () {
+    const type = passwordInput.getAttribute("type") === "password" ? "text" : "password";
+    passwordInput.setAttribute("type", type);
+    this.querySelector("i").classList.toggle("fa-eye");
+    this.querySelector("i").classList.toggle("fa-eye-slash");
+  });
+
+  toggleConfirmPassword.addEventListener("click", function () {
+    const type = confirmInput.getAttribute("type") === "password" ? "text" : "password";
+    confirmInput.setAttribute("type", type);
+    this.querySelector("i").classList.toggle("fa-eye");
+    this.querySelector("i").classList.toggle("fa-eye-slash");
+  });
+
+  // Validate password match on blur
+  confirmInput.addEventListener("blur", validatePasswordMatch);
+
+  confirmInput.addEventListener("input", () => {
+    confirmInput.classList.remove("is-invalid");
+    warning.style.display = "none";
+  });
+
+  function validatePasswordMatch() {
+    const doMatch = passwordInput.value === confirmInput.value;
+    if (confirmInput.value && !doMatch) {
+      confirmInput.classList.add("is-invalid");
+      warning.style.display = "block";
+    } else {
+      confirmInput.classList.remove("is-invalid");
+      warning.style.display = "none";
+    }
+  }
+
+  signupForm.addEventListener("submit", function (e) {
+    if (passwordInput.value !== confirmInput.value) {
+      e.preventDefault();
+      validatePasswordMatch();
+    }
+  });
+</script>
+
+</body>
+</html>
