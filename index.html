@@ -33,42 +33,37 @@
       background-color: rgba(255, 255, 255, 0.95);
       padding: 5rem 1rem;
       text-align: center;
+      padding-top: 100px; /* pushes content down */
+      margin-top: 100px;  /* adds space above the section */
     }
 
     .hero-section i {
       display: block;
       margin-bottom: 0.5rem;
     }
-    .hero-section {
-      padding-top: 100px; /* pushes content down */
-      /* or */
-      margin-top: 100px;  /* adds space above the section */
-    }
-
   </style>
 </head>
 <body>
 
   <!-- Header -->
   <header class="py-1 shadow">
-  <div class="container position-relative">
-    <nav class="navbar navbar-expand-lg">
-      <!-- Centered Brand -->
-      <a class="navbar-brand text-dark fw-bold position-absolute start-50 translate-middle-x" href="index.html">Ghatpar.com</a>
+    <div class="container position-relative">
+      <nav class="navbar navbar-expand-lg">
+        <!-- Centered Brand -->
+        <a class="navbar-brand text-dark fw-bold position-absolute start-50 translate-middle-x" href="index.html">Ghatpar.com</a>
 
-      <!-- Toggler -->
-      <button class="navbar-toggler text-white" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-        <span class="navbar-toggler-icon"></span>
-      </button>
+        <!-- Toggler -->
+        <button class="navbar-toggler text-white" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+          <span class="navbar-toggler-icon"></span>
+        </button>
 
-      <!-- Collapsible content -->
-      <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
-        <button class="btn btn-outline-primary me-2" data-bs-toggle="modal" data-bs-target="#authModal">Login</button>
-      </div>
-    </nav>
-  </div>
-</header>
-
+        <!-- Collapsible content -->
+        <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+          <button class="btn btn-outline-primary me-2" data-bs-toggle="modal" data-bs-target="#authModal">Login</button>
+        </div>
+      </nav>
+    </div>
+  </header>
 
   <!-- Hero Section -->
   <section class="hero-section" style="background-color: transparent;">
@@ -99,204 +94,281 @@
         </div>
       </div>
       <div class="d-flex justify-content-center mt-4">
-  <button class="btn btn-primary btn-lg d-flex align-items-center justify-content-center" data-bs-toggle="modal" data-bs-target="#authModal" style="gap: 10px;">
-    <img src="image/cartw.png" alt="Shopping Cart" style="max-width: 60px; height: auto;">
-    Start Shopping
-  </button>
-</div>
-
+        <button class="btn btn-primary btn-lg d-flex align-items-center justify-content-center" data-bs-toggle="modal" data-bs-target="#authModal" style="gap: 10px;">
+          <img src="image/cartw.png" alt="Shopping Cart" style="max-width: 60px; height: auto;">
+          Start Shopping
+        </button>
+      </div>
 
       <p class="text-muted mt-2">Join thousands of happy customers!</p>
     </div>
   </section>
 
   <!-- Auth Modal -->
-<div class="modal fade" id="authModal" tabindex="-1">
+  <div class="modal fade" id="authModal" tabindex="-1">
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title">Login</h5>
+          <h5 class="modal-title" id="authModalTitle">Login</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
         </div>
         <div class="modal-body">
 
-  <!-- Login Form -->
-  <div id="loginForm">
-  <form>
-    <div class="mb-3">
-      <input type="email" class="form-control" placeholder="Email" required>
-    </div>
-    <div class="mb-3">
-      <input type="password" class="form-control" placeholder="Password" required>
-    </div>
+          <!-- Login Form -->
+          <div id="loginForm">
+            <form id="loginFormElement">
+              <div class="mb-3">
+                <input type="email" class="form-control" placeholder="Email" required />
+              </div>
+              <div class="mb-3">
+                <input type="password" class="form-control" placeholder="Password" required />
+              </div>
+              <div class="form-check mb-3">
+                <input class="form-check-input" type="checkbox" id="rememberMe" />
+                <label class="form-check-label" for="rememberMe">Remember Me</label>
+              </div>
+              <button type="submit" class="btn btn-primary w-100">Login</button>
+            </form>
+            <div class="text-center mt-3">
+              <a href="#!" onclick="showForm('signupForm')">Create an Account</a><br />
+              <a href="#!" onclick="showForm('forgotForm')">Forgot Password?</a>
+            </div>
+          </div>
 
-    <!-- Remember Me Checkbox -->
-    <div class="form-check mb-3">
-      <input class="form-check-input" type="checkbox" id="rememberMe" name="rememberMe">
-      <label class="form-check-label" for="rememberMe">
-        Remember Me
-      </label>
-    </div>
+          <!-- Signup Form -->
+          <div id="signupForm" class="d-none">
+            <form id="signupFormElement">
+              <div class="mb-3">
+                <label for="fullname" class="form-label text-dark fw-bold">
+                  <i class="fas fa-user"></i> Full Name
+                </label>
+                <input type="text" class="form-control shadow-sm border-success" id="fullname" required />
+              </div>
+              <div class="mb-3">
+                <label for="email" class="form-label text-dark fw-bold">
+                  <i class="fas fa-envelope"></i> Email
+                </label>
+                <input type="email" class="form-control shadow-sm border-success" id="email" required />
+              </div>
+              <div class="mb-3">
+                <label for="number" class="form-label text-dark fw-bold">
+                  <i class="fas fa-phone"></i> Phone Number
+                </label>
+                <div class="input-group shadow-sm border-success">
+                  <select class="form-select" style="max-width: 150px;" aria-label="Country code" id="countryCode">
+                    <option value="+1" selected>+1 (US)</option>
+                    <option value="+91">+91 (IN)</option>
+                    <option value="+44">+44 (UK)</option>
+                    <option value="+61">+61 (AU)</option>
+                    <option value="+880">+880 (BD)</option>
+                  </select>
+                  <input
+                    type="tel"
+                    class="form-control"
+                    id="number"
+                    placeholder="Enter your phone number"
+                    required
+                  />
+                </div>
+              </div>
 
-    <button type="submit" class="btn btn-primary w-100">Login</button>
-  </form>
-  <div class="text-center mt-3">
-    <a href="#!" class="text-decoration-none" onclick="showForm('signupForm')">
-      Create an Account
-    </a><br>
-    <a href="#!" class="text-decoration-none" onclick="showForm('forgotForm')">
-      Forgot Password?
-    </a>
-  </div>
-  </div>
+              <!-- Password Field -->
+              <div class="mb-3 position-relative">
+                <label for="password" class="form-label text-dark fw-bold">
+                  <i class="fas fa-lock"></i> Password
+                </label>
+                <div class="input-group">
+                  <input type="password" class="form-control shadow-sm border-dark" id="password" required />
+                  <button type="button" class="btn btn-outline-secondary" id="togglePassword">
+                    <i class="fas fa-eye"></i>
+                  </button>
+                </div>
+              </div>
 
-<!-- Signup Form -->
-<div id="signupForm" class="d-none">
-  <form id="signupFormElement">
-    <div class="mb-3">
-      <label for="fullname" class="form-label text-dark fw-bold">
-        <i class="fas fa-user"></i> Full Name
-      </label>
-      <input type="text" class="form-control shadow-sm border-success" id="fullname" required>
-    </div>
-    <div class="mb-3">
-      <label for="email" class="form-label text-dark fw-bold">
-        <i class="fas fa-envelope"></i> Email
-      </label>
-      <input type="email" class="form-control shadow-sm border-success" id="email" required>
-    </div>
-    <div class="mb-3">
-      <label for="number" class="form-label text-dark fw-bold">
-        <i class="fas fa-phone"></i> Phone Number
-      </label>
-      <div class="input-group shadow-sm border-success">
-        <select class="form-select" style="max-width: 150px;" aria-label="Country code">
-          <option value="+1" selected>+1 (US)</option>
-          <option value="+91">+91 (IN)</option>
-          <option value="+44">+44 (UK)</option>
-          <option value="+61">+61 (AU)</option>
-          <option value="+880">+880 (BD)</option>
-        </select>
-        <input type="tel" class="form-control" id="number" placeholder="Enter your phone number" required>
-      </div>
-    </div>
-    <form id="signupFormElement">
-  <!-- Password Field -->
-<div class="mb-3 position-relative">
-  <label for="password" class="form-label text-dark fw-bold">
-    <i class="fas fa-lock"></i> Password
-  </label>
-  <div class="input-group">
-    <input type="password" class="form-control shadow-sm border-dark" id="password" required>
-    <button type="button" class="btn btn-outline-secondary" id="togglePassword">
-      <i class="fas fa-eye"></i>
-    </button>
-  </div>
-</div>
+              <!-- Confirm Password Field -->
+              <div class="mb-3 position-relative">
+                <label for="confirmPassword" class="form-label text-dark fw-bold">
+                  <i class="fas fa-lock"></i> Confirm Password
+                </label>
+                <div class="input-group">
+                  <input
+                    type="password"
+                    class="form-control shadow-sm border-dark"
+                    id="confirmPassword"
+                    required
+                  />
+                  <button type="button" class="btn btn-outline-secondary" id="toggleConfirmPassword">
+                    <i class="fas fa-eye"></i>
+                  </button>
+                </div>
+                <div
+                  id="passwordMatchWarning"
+                  class="text-danger small mt-1"
+                  style="display: none;"
+                >
+                  Passwords do not match
+                </div>
+              </div>
 
-<!-- Confirm Password Field -->
-<div class="mb-3 position-relative">
-  <label for="confirmPassword" class="form-label text-dark fw-bold">
-    <i class="fas fa-lock"></i> Confirm Password
-  </label>
-  <div class="input-group">
-    <input type="password" class="form-control shadow-sm border-dark" id="confirmPassword" required>
-    <button type="button" class="btn btn-outline-secondary" id="toggleConfirmPassword">
-      <i class="fas fa-eye"></i>
-    </button>
-  </div>
-  <div id="passwordMatchWarning" class="text-danger small mt-1" style="display: none;">
-    Passwords do not match
-  </div>
-</div>
+              <button type="submit" class="btn btn-primary w-100">Sign Up</button>
+            </form>
 
-
-  <button type="submit" class="btn btn-primary w-100">Sign Up</button>
-</form>
-
-  <div class="text-center mt-3">
-    Already have an account? 
-    <a href="#!" class="text-decoration-none" onclick="showForm('loginForm')">Login</a>
-  </div>
-</div>
-
+            <div class="text-center mt-3">
+              Already have an account?
+              <a href="#!" onclick="showForm('loginForm')">Login</a>
+            </div>
+          </div>
 
           <!-- Forgot Password Form -->
           <div id="forgotForm" class="d-none">
-            <form>
+            <form id="forgotFormElement">
               <div class="mb-3">
-                <input type="email" class="form-control" placeholder="Enter your email" required>
+                <input type="email" class="form-control" placeholder="Enter your email" required />
               </div>
               <button type="submit" class="btn btn-primary w-100">Reset Password</button>
             </form>
             <div class="text-center mt-3">
-              <a href="#!" class="text-decoration-none" onclick="showForm('loginForm')">Back to Login</a>
+              <a href="#!" onclick="showForm('loginForm')">Back to Login</a>
             </div>
           </div>
         </div>
       </div>
     </div>
-</div>
+  </div>
 
   <!-- Scripts -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-  <script>
+
+  <!-- Firebase -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-app.js";
+    import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-analytics.js";
+    import {
+      getAuth,
+      signInWithEmailAndPassword,
+      createUserWithEmailAndPassword,
+      sendPasswordResetEmail,
+    } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-auth.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyDv1S-UU0-CORLOYEaOIYqh5YqgjxXHIqs",
+      authDomain: "ghatparstore.firebaseapp.com",
+      projectId: "ghatparstore",
+      storageBucket: "ghatparstore.firebasestorage.app",
+      messagingSenderId: "395013404803",
+      appId: "1:395013404803:web:b8fa605483e94a1a30c3b6",
+      measurementId: "G-RYNRH76Z97",
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const analytics = getAnalytics(app);
+    const auth = getAuth(app);
+
+    // Show/hide forms
     function showForm(formId) {
       document.querySelectorAll('.modal-body > div').forEach(form => {
         form.classList.add('d-none');
       });
       document.getElementById(formId).classList.remove('d-none');
+      const titleMap = {
+        loginForm: "Login",
+        signupForm: "Sign Up",
+        forgotForm: "Reset Password"
+      };
+      document.getElementById('authModalTitle').innerText = titleMap[formId];
     }
-  </script>
-  <script>
-  const passwordInput = document.getElementById("password");
-  const confirmInput = document.getElementById("confirmPassword");
-  const togglePassword = document.getElementById("togglePassword");
-  const toggleConfirmPassword = document.getElementById("toggleConfirmPassword");
-  const warning = document.getElementById("passwordMatchWarning");
-  const signupForm = document.getElementById("signupFormElement");
 
-  // Password visibility toggle
-  togglePassword.addEventListener("click", function () {
-    const type = passwordInput.getAttribute("type") === "password" ? "text" : "password";
-    passwordInput.setAttribute("type", type);
-    this.querySelector("i").classList.toggle("fa-eye");
-    this.querySelector("i").classList.toggle("fa-eye-slash");
-  });
+    // Password visibility toggles
+    const passwordInput = document.getElementById('password');
+    const confirmPasswordInput = document.getElementById('confirmPassword');
+    const togglePasswordBtn = document.getElementById('togglePassword');
+    const toggleConfirmPasswordBtn = document.getElementById('toggleConfirmPassword');
+    const passwordMatchWarning = document.getElementById('passwordMatchWarning');
 
-  toggleConfirmPassword.addEventListener("click", function () {
-    const type = confirmInput.getAttribute("type") === "password" ? "text" : "password";
-    confirmInput.setAttribute("type", type);
-    this.querySelector("i").classList.toggle("fa-eye");
-    this.querySelector("i").classList.toggle("fa-eye-slash");
-  });
+    togglePasswordBtn?.addEventListener('click', () => {
+      const type = passwordInput.type === 'password' ? 'text' : 'password';
+      passwordInput.type = type;
+      togglePasswordBtn.firstElementChild.className = type === 'password' ? 'fas fa-eye' : 'fas fa-eye-slash';
+    });
 
-  // Validate password match on blur
-  confirmInput.addEventListener("blur", validatePasswordMatch);
+    toggleConfirmPasswordBtn?.addEventListener('click', () => {
+      const type = confirmPasswordInput.type === 'password' ? 'text' : 'password';
+      confirmPasswordInput.type = type;
+      toggleConfirmPasswordBtn.firstElementChild.className = type === 'password' ? 'fas fa-eye' : 'fas fa-eye-slash';
+    });
 
-  confirmInput.addEventListener("input", () => {
-    confirmInput.classList.remove("is-invalid");
-    warning.style.display = "none";
-  });
+    // Validate confirm password live
+    confirmPasswordInput?.addEventListener('input', () => {
+      if (confirmPasswordInput.value !== passwordInput.value) {
+        passwordMatchWarning.style.display = 'block';
+      } else {
+        passwordMatchWarning.style.display = 'none';
+      }
+    });
 
-  function validatePasswordMatch() {
-    const doMatch = passwordInput.value === confirmInput.value;
-    if (confirmInput.value && !doMatch) {
-      confirmInput.classList.add("is-invalid");
-      warning.style.display = "block";
-    } else {
-      confirmInput.classList.remove("is-invalid");
-      warning.style.display = "none";
-    }
-  }
-
-  signupForm.addEventListener("submit", function (e) {
-    if (passwordInput.value !== confirmInput.value) {
+    // Handle login
+    const loginForm = document.getElementById('loginFormElement');
+    loginForm.addEventListener('submit', async (e) => {
       e.preventDefault();
-      validatePasswordMatch();
-    }
-  });
-</script>
+      const email = loginForm.querySelector('input[type="email"]').value;
+      const password = loginForm.querySelector('input[type="password"]').value;
+      try {
+        await signInWithEmailAndPassword(auth, email, password);
+        alert("Logged in successfully!");
+        // Close modal
+        const modal = bootstrap.Modal.getInstance(document.getElementById('authModal'));
+        modal.hide();
+      } catch (error) {
+        alert("Login failed: " + error.message);
+      }
+    });
 
+    // Handle signup
+    const signupForm = document.getElementById('signupFormElement');
+    signupForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const fullname = signupForm.querySelector('#fullname').value.trim();
+      const email = signupForm.querySelector('#email').value.trim();
+      const countryCode = signupForm.querySelector('#countryCode').value;
+      const number = signupForm.querySelector('#number').value.trim();
+      const password = signupForm.querySelector('#password').value;
+      const confirmPassword = signupForm.querySelector('#confirmPassword').value;
+
+      if (password !== confirmPassword) {
+        alert("Passwords do not match!");
+        return;
+      }
+      if (!fullname || !email || !number) {
+        alert("Please fill in all fields.");
+        return;
+      }
+
+      try {
+        await createUserWithEmailAndPassword(auth, email, password);
+        alert("Account created successfully! You can now log in.");
+        showForm('loginForm');
+      } catch (error) {
+        alert("Signup failed: " + error.message);
+      }
+    });
+
+    // Handle forgot password
+    const forgotForm = document.getElementById('forgotFormElement');
+    forgotForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const email = forgotForm.querySelector('input[type="email"]').value;
+      try {
+        await sendPasswordResetEmail(auth, email);
+        alert("Password reset email sent!");
+        showForm('loginForm');
+      } catch (error) {
+        alert("Error sending reset email: " + error.message);
+      }
+    });
+
+    // Expose showForm to global scope so links can call it
+    window.showForm = showForm;
+  </script>
 </body>
 </html>
