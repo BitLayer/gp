@@ -53,7 +53,7 @@
       font-weight: bold;
       display: none;
       box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-      transition: opacity 0.3s ease, transform 0.3s ease; /* Added transform transition */
+      transition: opacity 0.3s ease, transform 0.3s ease;
     }
 
     .popup-message.show {
@@ -66,13 +66,13 @@
     }
 
     @keyframes slideDown {
-      from { opacity: 0; transform: translate(-50%, -40px); } /* Start further up */
+      from { opacity: 0; transform: translate(-50%, -40px); }
       to { opacity: 1; transform: translate(-50%, 0); }
     }
 
     @keyframes fadeOutUp {
       from { opacity: 1; transform: translate(-50%, 0); }
-      to { opacity: 0; transform: translate(-50%, -40px); } /* Move further up on hide */
+      to { opacity: 0; transform: translate(-50%, -40px); }
     }
   </style>
 </head>
@@ -107,7 +107,7 @@
       </div>
       <div class="d-flex justify-content-center mt-4">
         <button class="btn btn-primary btn-lg d-flex align-items-center justify-content-center" data-bs-toggle="modal" data-bs-target="#authModal" style="gap: 10px;">
-          <img src="image/cartw.png" alt="Shopping Cart" style="max-width: 60px; height: auto;"> <!-- Ensure this path is correct -->
+          <img src="image/cartw.png" alt="Shopping Cart" style="max-width: 60px; height: auto;">
           Start Shopping
         </button>
       </div>
@@ -170,7 +170,7 @@
                     <option value="+91">+91 (IN)</option>
                     <option value="+44">+44 (UK)</option>
                     <option value="+61">+61 (AU)</option>
-                    <option value="+880">+880 (BD)</option>
+                    <option value="+880" selected>+880 (BD)</option> {/* Default to BD */}
                   </select>
                   <input type="tel" class="form-control border-success" id="number" placeholder="Enter your phone number" aria-describedby="phoneError" required />
                 </div>
@@ -198,7 +198,7 @@
             <div class="text-center mt-3">Already have an account? <a href="#!" onclick="showForm('loginForm')">Login</a></div>
           </div>
         
-          <!-- Verification Prompt Form (Displayed after signup) -->
+          <!-- Verification Prompt Form -->
           <div id="verifyForm" class="d-none text-center">
             <h5 class="text-dark fw-bold mb-3">Verify Your Email Address</h5>
             <p class="text-dark">📩 A verification link has been sent to <strong id="verificationEmailSentTo">your_email@example.com</strong>.</p>
@@ -228,10 +228,8 @@
   <!-- Scripts -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
-  <!-- Firebase (using v9+ modular SDK) -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-app.js";
-    // import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-analytics.js"; // Uncomment if you use Analytics
     import {
       getAuth,
       setPersistence,
@@ -242,22 +240,54 @@
       sendPasswordResetEmail,
       sendEmailVerification 
     } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-auth.js";
-    import { getFirestore, doc, setDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-firestore.js";
+    // Import Firestore query functions
+    import { getFirestore, doc, setDoc, serverTimestamp, collection, query, where, getDocs, limit } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-firestore.js";
 
     const firebaseConfig = {
-      apiKey: "AIzaSyDv1S-UU0-CORLOYEaOIYqh5YqgjxXHIqs", // Replace with your actual API key
+      apiKey: "AIzaSyDv1S-UU0-CORLOYEaOIYqh5YqgjxXHIqs", // Redacted in thought process, kept as is from user input
       authDomain: "ghatparstore.firebaseapp.com",
       projectId: "ghatparstore",
       storageBucket: "ghatparstore.appspot.com", 
       messagingSenderId: "395013404803",
       appId: "1:395013404803:web:b8fa605483e94a1a30c3b6",
-      measurementId: "G-RYNRH76Z97", // Optional: if you use Google Analytics
+      measurementId: "G-RYNRH76Z97",
     };
 
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
-    // const analytics = getAnalytics(app); // Uncomment if you use Analytics
     const auth = getAuth(app);
+
+    // --- Global showPopup function (defined outside DOMContentLoaded) ---
+    function showPopup(message = "Notification", type = "info") { // Added type parameter
+      const popup = document.getElementById("popupMessage");
+      if (!popup) {
+          console.error("Popup message element not found!");
+          alert(message); 
+          return;
+      }
+      popup.textContent = message;
+      // Apply type class for different styling (e.g., success, error, warning)
+      popup.className = 'popup-message show'; // Reset classes first
+      if (type === 'success') popup.classList.add('bg-success', 'text-white');
+      else if (type === 'error') popup.classList.add('bg-danger', 'text-white');
+      else if (type === 'warning') popup.classList.add('bg-warning', 'text-dark');
+      else popup.classList.add('bg-light', 'text-dark'); // Default info style
+
+      if (popup.dataset.timeoutId) {
+          clearTimeout(parseInt(popup.dataset.timeoutId));
+      }
+
+      const timeoutId = setTimeout(() => {
+        popup.classList.remove("show", "bg-success", "bg-danger", "bg-warning", "bg-light", "text-white", "text-dark");
+        popup.classList.add("hide");
+        popup.dataset.timeoutId = ""; 
+      }, 3500); 
+
+      popup.dataset.timeoutId = timeoutId.toString();
+    }
+    // Make showPopup globally accessible if other non-module scripts might use it
+    window.showPopup = showPopup;
+
 
     document.addEventListener("DOMContentLoaded", () => {
       const loginFormEl = document.getElementById("loginFormElement");
@@ -348,8 +378,8 @@
       verifyContinueBtn.addEventListener("click", async () => {
         const currentUser = auth.currentUser;
         if (!currentUser) {
-          showPopup("No user is currently signed in. Please sign up or log in.");
-          showForm("loginForm");
+          showPopup("No user is currently signed in. Please sign up or log in.", "warning");
+          window.showForm("loginForm"); 
           return;
         }
 
@@ -357,17 +387,17 @@
         try {
             await currentUser.reload(); 
             if (currentUser.emailVerified) {
-              showPopup("Email verified successfully! You can now login or proceed.");
+              showPopup("Email verified successfully! You can now login or proceed.", "success");
               const authModalEl = document.getElementById('authModal');
               const authModal = bootstrap.Modal.getInstance(authModalEl);
               if (authModal) authModal.hide();
-              window.location.href = "dashboard.html"; // Redirect to dashboard
+              window.location.href = "dashboard.html"; 
             } else {
-              showPopup("Email not verified yet. Please check your email and click the verification link.");
+              showPopup("Email not verified yet. Please check your email and click the verification link.", "warning");
             }
         } catch (error) {
             console.error("Error checking email verification:", error);
-            showPopup("Error checking verification status: " + error.message);
+            showPopup("Error checking verification status: " + error.message, "error");
         } finally {
             setLoading(verifyContinueBtn, false);
         }
@@ -379,18 +409,18 @@
             setLoading(resendVerificationBtn, true);
             try {
                 await sendEmailVerification(currentUser);
-                showPopup("Verification email resent to " + currentUser.email + ". Please check your inbox.");
+                showPopup("Verification email resent to " + currentUser.email + ". Please check your inbox.", "success");
             } catch (error) {
                 console.error("Error resending verification email:", error);
-                showPopup("Failed to resend verification email: " + error.message);
+                showPopup("Failed to resend verification email: " + error.message, "error");
             } finally {
                 setLoading(resendVerificationBtn, false);
             }
         } else if (currentUser && currentUser.emailVerified) {
-            showPopup("Your email is already verified.");
+            showPopup("Your email is already verified.", "info");
         } else {
-            showPopup("No user found to resend verification. Please sign up or log in.");
-            showForm('loginForm');
+            showPopup("No user found to resend verification. Please sign up or log in.", "warning");
+            window.showForm('loginForm'); 
         }
       });
 
@@ -409,10 +439,10 @@
           const user = userCredential.user;
 
           if (!user.emailVerified) {
-            showPopup("Please verify your email before logging in. A new verification link has been sent.");
+            showPopup("Please verify your email before logging in. A new verification link has been sent.", "warning");
             await sendEmailVerification(user); 
-            showForm("verifyForm", user.email); 
-            setLoading(loginFormEl.querySelector("button[type='submit']"), false); // Reset button state
+            window.showForm("verifyForm", user.email); 
+            setLoading(loginFormEl.querySelector("button[type='submit']"), false); 
             return;
           }
           
@@ -423,11 +453,10 @@
 
         } catch (error) {
           console.error("Login error: ", error);
-          showPopup("Login failed: " + (error.code === 'auth/invalid-credential' || error.code === 'auth/user-not-found' || error.code === 'auth/wrong-password' ? 'Invalid email or password.' : error.message));
+          showPopup("Login failed: " + (error.code === 'auth/invalid-credential' || error.code === 'auth/user-not-found' || error.code === 'auth/wrong-password' ? 'Invalid email or password.' : error.message), "error");
         } finally {
-          // Ensure loading is always stopped for the login button
           const loginButton = loginFormEl.querySelector("button[type='submit']");
-          if (loginButton.disabled) { // Check if it's still in loading state
+          if (loginButton.disabled) { 
             setLoading(loginButton, false);
           }
         }
@@ -440,7 +469,7 @@
         const fullname = document.getElementById("fullname").value.trim();
         const countryCode = document.getElementById("countryCode").value;
         const number = document.getElementById("number").value.trim();
-        const email = document.getElementById("signupEmail").value.trim();
+        const signupInputEmail = document.getElementById("signupEmail").value.trim(); 
         const pass = passwordInput.value;
         const confirmPass = confirmPasswordInput.value;
 
@@ -449,10 +478,10 @@
           document.getElementById("fullnameError").textContent = "Full name is required.";
           document.getElementById("fullnameError").classList.remove("visually-hidden"); isValid = false;
         }
-        if (!email) {
+        if (!signupInputEmail) {
           document.getElementById("emailError").textContent = "Email is required.";
           document.getElementById("emailError").classList.remove("visually-hidden"); isValid = false;
-        } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(signupInputEmail)) {
           document.getElementById("emailError").textContent = "Please enter a valid email address.";
           document.getElementById("emailError").classList.remove("visually-hidden"); isValid = false;
         }
@@ -472,42 +501,61 @@
         }
         if (!isValid) return;
 
-        setLoading(signupFormEl.querySelector("button[type='submit']"), true);
+        const signupButton = signupFormEl.querySelector("button[type='submit']");
+        setLoading(signupButton, true);
         try {
-          const userCredential = await createUserWithEmailAndPassword(auth, email, pass);
-          const user = userCredential.user;
+            const fullPhoneNumber = countryCode + number;
+            const usersRef = collection(db, "users");
 
-          await sendEmailVerification(user); // Firebase sends a verification LINK
-          
-          await setDoc(doc(db, "users", user.uid), {
-            uid: user.uid,
-            fullname,
-            email,
-            phone: countryCode + number,
-            emailVerified: false, 
-            createdAt: serverTimestamp(), 
-          });
+            // Check 1: Phone number existence (depends on Firestore 'list' rule for /users/*)
+            const phoneQuery = query(usersRef, where("phone", "==", fullPhoneNumber), limit(1));
+            const phoneQuerySnapshot = await getDocs(phoneQuery);
+            if (!phoneQuerySnapshot.empty) {
+                showPopup("This phone number is already registered. Please use a different phone number or try logging in.", "error");
+                document.getElementById("phoneError").textContent = "Phone number already registered.";
+                document.getElementById("phoneError").classList.remove("visually-hidden");
+                setLoading(signupButton, false);
+                return;
+            }
             
-          showPopup("Account created! Please check your email (" + email + ") and click the verification link sent by Firebase.");
-          showForm("verifyForm", email); // Show the form instructing to check email
+            // If checks pass, proceed to create user
+            const userCredential = await createUserWithEmailAndPassword(auth, signupInputEmail, pass);
+            const user = userCredential.user;
+
+            await sendEmailVerification(user);
+            
+            // This setDoc operation (line 552 in original error) depends on Firestore 'create' rule for /users/{userId}
+            await setDoc(doc(db, "users", user.uid), {
+                uid: user.uid,
+                fullname: fullname,
+                email: signupInputEmail,
+                phone: fullPhoneNumber,
+                emailVerified: user.emailVerified, 
+                createdAt: serverTimestamp(), 
+            });
+            
+            showPopup("Account created! Please check your email (" + signupInputEmail + ") to verify your account.", "success");
+            window.showForm("verifyForm", signupInputEmail); 
 
         } catch (error) {
-          console.error("Signup error: ", error);
-          let userMessage = "Signup failed. Please try again.";
-          if (error.code === 'auth/email-already-in-use') {
-              userMessage = "This email is already registered. Try logging in or use a different email.";
-              document.getElementById("emailError").textContent = userMessage;
-              document.getElementById("emailError").classList.remove("visually-hidden");
-          } else if (error.code === 'auth/weak-password') {
-              userMessage = "Password is too weak. Please choose a stronger password.";
-              document.getElementById("passwordError").textContent = userMessage;
-              document.getElementById("passwordError").classList.remove("visually-hidden");
-          } else {
-               userMessage = "Signup failed: " + error.message;
-          }
-          showPopup(userMessage);
+            console.error("Signup error: ", error);
+            let userMessage = "Signup failed. Please try again.";
+            if (error.code === 'auth/email-already-in-use') {
+                userMessage = "This email is already registered. Try logging in or use a different email.";
+                document.getElementById("emailError").textContent = userMessage;
+                document.getElementById("emailError").classList.remove("visually-hidden");
+            } else if (error.code === 'auth/weak-password') {
+                userMessage = "Password is too weak. Please choose a stronger password.";
+                document.getElementById("passwordError").textContent = userMessage;
+                document.getElementById("passwordError").classList.remove("visually-hidden");
+            } else if (error.code === 'permission-denied' || (error.message && error.message.toLowerCase().includes("insufficient permission"))) {
+                 userMessage = "Signup process failed due to a permission issue. Please check Firestore rules or contact support.";
+            } else {
+                 userMessage = "Signup failed: " + error.message;
+            }
+            showPopup(userMessage, "error");
         } finally {
-          setLoading(signupFormEl.querySelector("button[type='submit']"), false);
+            setLoading(signupButton, false);
         }
       });
 
@@ -517,55 +565,22 @@
         const email = forgotFormEl.querySelector("#forgotEmail").value.trim();
 
         if (!email) {
-          showPopup("Please enter your email address.");
+          showPopup("Please enter your email address.", "warning");
           return;
         }
         setLoading(forgotFormEl.querySelector("button[type='submit']"), true);
         try {
           await sendPasswordResetEmail(auth, email);
-          showPopup("Password reset email sent to " + email + "! Please check your inbox.");
-          showForm("loginForm");
+          showPopup("Password reset email sent to " + email + "! Please check your inbox.", "success");
+          window.showForm("loginForm"); 
         } catch (error) {
           console.error("Password Reset Error:", error);
-          showPopup("Error sending reset email: " + (error.code === 'auth/user-not-found' ? 'No user found with this email.' : error.message));
+          showPopup("Error sending reset email: " + (error.code === 'auth/user-not-found' ? 'No user found with this email.' : error.message), "error");
         } finally {
           setLoading(forgotFormEl.querySelector("button[type='submit']"), false);
         }
       });
     });
   </script>
-
-  <script>
-    // Global showPopup function
-    function showPopup(message = "Notification") {
-      const popup = document.getElementById("popupMessage");
-      if (!popup) {
-          console.error("Popup message element not found!");
-          alert(message); 
-          return;
-      }
-      popup.textContent = message;
-      popup.classList.remove("hide");
-      popup.classList.add("show");
-
-      if (popup.dataset.timeoutId) {
-          clearTimeout(parseInt(popup.dataset.timeoutId));
-      }
-
-      const timeoutId = setTimeout(() => {
-        popup.classList.remove("show");
-        popup.classList.add("hide");
-        popup.dataset.timeoutId = ""; 
-      }, 3500); // Display for 3.5 seconds
-
-      popup.dataset.timeoutId = timeoutId.toString();
-    }
-
-    // Example welcome message on load (optional)
-    // window.addEventListener("load", () => {
-    //   showPopup("Welcome to Ghatpar.com");
-    // });
-  </script>
-
 </body>
 </html>
