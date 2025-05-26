@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Profile - Ghatpar Grocery</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            background-color: #f8f9fa;
+        }
+        .profile-card {
+            background-color: #fff;
+            border-radius: 0.5rem;
+            box-shadow: 0 0.125rem 0.25rem rgba(0,0,0,0.075);
+        }
+        .profile-header {
+            background-color: #0d6efd; /* Bootstrap primary blue */
+            color: white;
+            padding: 1.5rem;
+            border-top-left-radius: 0.5rem;
+            border-top-right-radius: 0.5rem;
+            text-align: center;
+        }
+        .profile-header .fa-user-circle {
+            font-size: 4rem;
+            margin-bottom: 0.5rem;
+        }
+        .profile-details dt {
+            font-weight: 600;
+        }
+        .profile-details dd {
+            margin-bottom: 0.75rem;
+        }
+        .loader {
+            border: 5px solid #f3f3f3;
+            border-top: 5px solid #3498db;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+            margin: 20px auto;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .content-wrapper {
+            flex: 1;
+        }
+         /* Popup Message Styles (copied from index.html for consistency) */
+        .popup-message {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #ffffff;
+            color: #333;
+            padding: 12px 24px;
+            border-radius: 6px;
+            z-index: 1050;
+            font-weight: bold;
+            display: none;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+        .popup-message.show {
+            display: block;
+            animation: slideDown 0.5s ease-out;
+        }
+        .popup-message.hide {
+            animation: fadeOutUp 0.5s ease-in forwards;
+        }
+        @keyframes slideDown {
+            from { opacity: 0; transform: translate(-50%, -40px); }
+            to { opacity: 1; transform: translate(-50%, 0); }
+        }
+        @keyframes fadeOutUp {
+            from { opacity: 1; transform: translate(-50%, 0); }
+            to { opacity: 0; transform: translate(-50%, -40px); }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="bg-light py-3 shadow-sm">
+        <div class="container">
+            <nav class="navbar navbar-expand-lg navbar-light">
+                <a class="navbar-brand fw-bold" href="dashboard.html">Ghatpar.com</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavProfile">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNavProfile">
+                    <ul class="navbar-nav me-auto">
+                        <li class="nav-item"><a class="nav-link" href="dashboard.html">Dashboard</a></li>
+                        <!-- Add other nav links if needed -->
+                    </ul>
+                    <div class="dropdown">
+                        <button class="btn btn-outline-primary dropdown-toggle" type="button" id="userAccountDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fas fa-user me-1"></i> <span id="navUserEmail">My Account</span>
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userAccountDropdown">
+                            <li><a class="dropdown-item active" href="profile.html"><i class="fas fa-id-card me-2"></i>My Profile</a></li>
+                            <li><a class="dropdown-item" href="#"><i class="fas fa-history me-2"></i>Order History</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><button class="dropdown-item" id="logoutButton"><i class="fas fa-sign-out-alt me-2"></i>Logout</button></li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Popup Message Container -->
+    <div id="popupMessage" class="popup-message"></div>
+
+    <!-- Main Content -->
+    <main class="container my-4 content-wrapper">
+        <div id="loadingState" class="text-center">
+            <div class="loader"></div>
+            <p>Loading profile...</p>
+        </div>
+
+        <div id="profileContent" class="d-none">
+            <div class="row justify-content-center">
+                <div class="col-md-8 col-lg-6">
+                    <div class="profile-card">
+                        <div class="profile-header">
+                            <i class="fas fa-user-circle"></i>
+                            <h2 id="profileFullNameDisplay">User Name</h2>
+                        </div>
+                        <div class="card-body p-4">
+                            <h3 class="mb-3 border-bottom pb-2">Account Details</h3>
+                            <dl class="row profile-details">
+                                <dt class="col-sm-4">Full Name:</dt>
+                                <dd class="col-sm-8" id="profileFullName">N/A</dd>
+
+                                <dt class="col-sm-4">Email Address:</dt>
+                                <dd class="col-sm-8" id="profileEmail">N/A</dd>
+
+                                <dt class="col-sm-4">Phone Number:</dt>
+                                <dd class="col-sm-8" id="profilePhone">N/A</dd>
+
+                                <dt class="col-sm-4">Email Verified:</dt>
+                                <dd class="col-sm-8" id="profileEmailVerified">N/A</dd>
+                                
+                                <dt class="col-sm-4">User ID:</dt>
+                                <dd class="col-sm-8"><small class="text-muted" id="profileUID">N/A</small></dd>
+                            </dl>
+                            
+                            <div class="mt-4 text-center">
+                                <!-- <button class="btn btn-primary me-2" id="editProfileButton"><i class="fas fa-edit me-1"></i> Edit Profile</button> -->
+                                <button class="btn btn-danger" id="logoutButtonPage"><i class="fas fa-sign-out-alt me-1"></i> Logout</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-light py-3 mt-auto">
+        <div class="container text-center">
+            <p class="mb-0">© <span id="currentYear"></span> Ghatpar.com. All rights reserved.</p>
+            <p class="mb-0">
+                <a href="#">Terms of Service</a> | 
+                <a href="#">Privacy Policy</a> | 
+                <a href="#">Contact Us</a>
+            </p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Firebase (using v9+ modular SDK) -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-app.js";
+        import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-auth.js";
+        import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-firestore.js";
+
+        // --- COPY YOUR FIREBASE CONFIGURATION FROM index.html HERE ---
+        const firebaseConfig = {
+            apiKey: "AIzaSyDv1S-UU0-CORLOYEaOIYqh5YqgjxXHIqs", // Replace with your actual API key
+            authDomain: "ghatparstore.firebaseapp.com",
+            projectId: "ghatparstore",
+            storageBucket: "ghatparstore.appspot.com",
+            messagingSenderId: "395013404803",
+            appId: "1:395013404803:web:b8fa605483e94a1a30c3b6",
+            measurementId: "G-RYNRH76Z97" // Optional
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+
+        // UI Elements
+        const loadingState = document.getElementById('loadingState');
+        const profileContent = document.getElementById('profileContent');
+        const profileFullNameDisplay = document.getElementById('profileFullNameDisplay');
+        const profileFullName = document.getElementById('profileFullName');
+        const profileEmail = document.getElementById('profileEmail');
+        const profilePhone = document.getElementById('profilePhone');
+        const profileEmailVerified = document.getElementById('profileEmailVerified');
+        const profileUID = document.getElementById('profileUID');
+        const navUserEmail = document.getElementById('navUserEmail');
+        const logoutButton = document.getElementById('logoutButton'); // In dropdown
+        const logoutButtonPage = document.getElementById('logoutButtonPage'); // On page
+
+        // Popup message function (copied from index.html)
+        function showPopup(message = "Notification") {
+            const popup = document.getElementById("popupMessage");
+            if (!popup) {
+                console.error("Popup message element not found!");
+                alert(message); 
+                return;
+            }
+            popup.textContent = message;
+            popup.classList.remove("hide");
+            popup.classList.add("show");
+
+            if (popup.dataset.timeoutId) {
+                clearTimeout(parseInt(popup.dataset.timeoutId));
+            }
+            const timeoutId = setTimeout(() => {
+                popup.classList.remove("show");
+                popup.classList.add("hide");
+                popup.dataset.timeoutId = ""; 
+            }, 3500);
+            popup.dataset.timeoutId = timeoutId.toString();
+        }
+
+
+        onAuthStateChanged(auth, async (user) => {
+            if (user) {
+                // User is signed in
+                if (navUserEmail) navUserEmail.textContent = user.email.split('@')[0]; // Display username part of email in nav
+
+                profileEmail.textContent = user.email;
+                profileUID.textContent = user.uid;
+                profileEmailVerified.innerHTML = user.emailVerified 
+                    ? '<span class="badge bg-success">Verified</span>' 
+                    : '<span class="badge bg-warning text-dark">Not Verified</span> <button id="resendVerifyEmailBtn" class="btn btn-sm btn-link p-0 ms-1">Resend Link</button>';
+
+                if (!user.emailVerified) {
+                    const resendBtn = document.getElementById('resendVerifyEmailBtn');
+                    if(resendBtn) {
+                        resendBtn.addEventListener('click', async () => {
+                            try {
+                                await sendEmailVerification(user);
+                                showPopup('Verification email sent! Check your inbox.');
+                                resendBtn.disabled = true;
+                                resendBtn.textContent = 'Sent';
+                            } catch (error) {
+                                showPopup('Error sending verification email: ' + error.message);
+                            }
+                        });
+                    }
+                }
+
+                // Fetch additional user data from Firestore
+                try {
+                    const userDocRef = doc(db, "users", user.uid);
+                    const userDocSnap = await getDoc(userDocRef);
+
+                    if (userDocSnap.exists()) {
+                        const userData = userDocSnap.data();
+                        profileFullName.textContent = userData.fullname || 'N/A';
+                        profileFullNameDisplay.textContent = userData.fullname || 'User';
+                        profilePhone.textContent = userData.phone || 'N/A';
+                    } else {
+                        console.log("No such user document in Firestore!");
+                        profileFullName.textContent = 'N/A (Data not found)';
+                        profileFullNameDisplay.textContent = 'User';
+                        profilePhone.textContent = 'N/A (Data not found)';
+                        showPopup("Could not find additional profile details.");
+                    }
+                } catch (error) {
+                    console.error("Error fetching user data from Firestore:", error);
+                    showPopup("Error loading profile details: " + error.message);
+                    profileFullName.textContent = 'Error loading';
+                    profileFullNameDisplay.textContent = 'User';
+                    profilePhone.textContent = 'Error loading';
+                }
+
+                loadingState.classList.add('d-none');
+                profileContent.classList.remove('d-none');
+
+            } else {
+                // User is signed out
+                console.log("User is not signed in. Redirecting to login.");
+                // Redirect to index.html (or your login page)
+                window.location.href = "index.html"; 
+            }
+        });
+
+        const handleLogout = async () => {
+            try {
+                await signOut(auth);
+                showPopup("You have been logged out.");
+                // No need to redirect here, onAuthStateChanged will handle it
+                // but if it doesn't fire fast enough, explicit redirect is fine.
+                setTimeout(() => { window.location.href = "index.html"; }, 1000);
+            } catch (error) {
+                console.error("Logout Error:", error);
+                showPopup("Error logging out: " + error.message);
+            }
+        };
+
+        if (logoutButton) {
+            logoutButton.addEventListener('click', handleLogout);
+        }
+        if (logoutButtonPage) {
+            logoutButtonPage.addEventListener('click', handleLogout);
+        }
+
+        // Set current year in footer
+        document.getElementById('currentYear').textContent = new Date().getFullYear();
+
+    </script>
+    <!-- Make sure to import sendEmailVerification if you add the resend button -->
+    <script type="module">
+        import { getAuth, sendEmailVerification } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-auth.js";
+        // This script block is primarily for ensuring sendEmailVerification is available if used above.
+        // The main logic is in the script block above.
+    </script>
+</body>
+</html>
