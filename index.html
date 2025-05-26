@@ -136,88 +136,119 @@
           </div>
 
           <!-- Signup Form -->
-          <div id="signupForm" class="d-none">
-            <form id="signupFormElement">
-              <div class="mb-3">
-                <label for="fullname" class="form-label text-dark fw-bold">
-                  <i class="fas fa-user"></i> Full Name
-                </label>
-                <input type="text" class="form-control shadow-sm border-success" id="fullname" required />
-              </div>
-              <div class="mb-3">
-                <label for="email" class="form-label text-dark fw-bold">
-                  <i class="fas fa-envelope"></i> Email
-                </label>
-                <input type="email" class="form-control shadow-sm border-success" id="email" required />
-              </div>
-              <div class="mb-3">
-                <label for="number" class="form-label text-dark fw-bold">
-                  <i class="fas fa-phone"></i> Phone Number
-                </label>
-                <div class="input-group shadow-sm border-success">
-                  <select class="form-select" style="max-width: 150px;" aria-label="Country code" id="countryCode">
-                    <option value="+1" selected>+1 (US)</option>
-                    <option value="+91">+91 (IN)</option>
-                    <option value="+44">+44 (UK)</option>
-                    <option value="+61">+61 (AU)</option>
-                    <option value="+880">+880 (BD)</option>
-                  </select>
-                  <input
-                    type="tel"
-                    class="form-control"
-                    id="number"
-                    placeholder="Enter your phone number"
-                    required
-                  />
-                </div>
-              </div>
-
-              <!-- Password Field -->
-              <div class="mb-3 position-relative">
-                <label for="password" class="form-label text-dark fw-bold">
-                  <i class="fas fa-lock"></i> Password
-                </label>
-                <div class="input-group">
-                  <input type="password" class="form-control shadow-sm border-dark" id="password" required />
-                  <button type="button" class="btn btn-outline-secondary" id="togglePassword">
-                    <i class="fas fa-eye"></i>
-                  </button>
-                </div>
-              </div>
-
-              <!-- Confirm Password Field -->
-              <div class="mb-3 position-relative">
-                <label for="confirmPassword" class="form-label text-dark fw-bold">
-                  <i class="fas fa-lock"></i> Confirm Password
-                </label>
-                <div class="input-group">
-                  <input
-                    type="password"
-                    class="form-control shadow-sm border-dark"
-                    id="confirmPassword"
-                    required
-                  />
-                  <button type="button" class="btn btn-outline-secondary" id="toggleConfirmPassword">
-                    <i class="fas fa-eye"></i>
-                  </button>
-                </div>
-                <div
-                  id="passwordMatchWarning"
-                  class="text-danger small mt-1"
-                  style="display: none;"
-                >
-                  Passwords do not match
-                </div>
-              </div>
-
-              <button type="submit" class="btn btn-primary w-100">Sign Up</button>
-            </form>
-
-            <div class="text-center mt-3">
-              Already have an account?
-              <a href="#!" onclick="showForm('loginForm')">Login</a>
+        <div id="signupForm" class="d-none" aria-live="polite" aria-atomic="true">
+          <form id="signupFormElement" novalidate>
+            <div class="mb-3">
+              <label for="fullname" class="form-label text-dark fw-bold">
+                <i class="fas fa-user"></i> Full Name
+              </label>
+              <input
+                type="text"
+                class="form-control shadow-sm border-success"
+                id="fullname"
+                aria-describedby="fullnameError"
+                required
+              />
+              <div id="fullnameError" class="form-text text-danger visually-hidden"></div>
             </div>
+            <div class="mb-3">
+              <label for="email" class="form-label text-dark fw-bold">
+                <i class="fas fa-envelope"></i> Email
+              </label>
+              <input
+                type="email"
+                class="form-control shadow-sm border-success"
+                id="email"
+                aria-describedby="emailError"
+                required
+              />
+              <div id="emailError" class="form-text text-danger visually-hidden"></div>
+            </div>
+            <div class="mb-3">
+              <label for="number" class="form-label text-dark fw-bold">
+                <i class="fas fa-phone"></i> Phone Number
+              </label>
+              <div class="input-group shadow-sm border-success">
+                <select
+                  class="form-select"
+                  style="max-width: 150px;"
+                  aria-label="Country code"
+                  id="countryCode"
+                >
+                  <option value="+1" selected>+1 (US)</option>
+                  <option value="+91">+91 (IN)</option>
+                  <option value="+44">+44 (UK)</option>
+                  <option value="+61">+61 (AU)</option>
+                  <option value="+880">+880 (BD)</option>
+                </select>
+                <input
+                  type="tel"
+                  class="form-control"
+                  id="number"
+                  placeholder="Enter your phone number"
+                  aria-describedby="phoneError"
+                  required
+                />
+              </div>
+              <div id="phoneError" class="form-text text-danger visually-hidden"></div>
+            </div>
+
+            <!-- Password Field -->
+            <div class="mb-3 position-relative">
+              <label for="password" class="form-label text-dark fw-bold">
+                <i class="fas fa-lock"></i> Password
+              </label>
+              <div class="input-group">
+                <input
+                  type="password"
+                  class="form-control shadow-sm border-dark"
+                  id="password"
+                  aria-describedby="passwordError"
+                  required
+                />
+                <button type="button" class="btn btn-outline-secondary" id="togglePassword" aria-label="Toggle password visibility">
+                  <i class="fas fa-eye"></i>
+                </button>
+              </div>
+              <div id="passwordError" class="form-text text-danger visually-hidden"></div>
+            </div>
+
+            <!-- Confirm Password Field -->
+            <div class="mb-3 position-relative">
+              <label for="confirmPassword" class="form-label text-dark fw-bold">
+                <i class="fas fa-lock"></i> Confirm Password
+              </label>
+              <div class="input-group">
+                <input
+                  type="password"
+                  class="form-control shadow-sm border-dark"
+                  id="confirmPassword"
+                  aria-describedby="confirmPasswordError passwordMatchWarning"
+                  required
+                />
+                <button type="button" class="btn btn-outline-secondary" id="toggleConfirmPassword" aria-label="Toggle confirm password visibility">
+                  <i class="fas fa-eye"></i>
+                </button>
+              </div>
+              <div
+                id="passwordMatchWarning"
+                class="text-danger small mt-1 visually-hidden"
+                role="alert"
+              >
+                Passwords do not match
+              </div>
+              <div id="confirmPasswordError" class="form-text text-danger visually-hidden"></div>
+            </div>
+
+            <button type="submit" class="btn btn-primary w-100">Sign Up</button>
+          </form>
+
+          <div class="text-center mt-3">
+            Already have an account?
+            <a href="#!" onclick="showForm('loginForm')">Login</a>
           </div>
+        </div>
+
 
           <!-- Forgot Password Form -->
           <div id="forgotForm" class="d-none">
@@ -241,134 +272,180 @@
 
   <!-- Firebase -->
   <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-app.js";
-    import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-analytics.js";
-    import {
-      getAuth,
-      signInWithEmailAndPassword,
-      createUserWithEmailAndPassword,
-      sendPasswordResetEmail,
-    } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-auth.js";
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-app.js";
+  import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-analytics.js";
+  import {
+    getAuth,
+    setPersistence,
+    browserLocalPersistence,
+    browserSessionPersistence,
+    signInWithEmailAndPassword,
+    createUserWithEmailAndPassword,
+    sendPasswordResetEmail
+  } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-auth.js";
+  import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-firestore.js";
 
-    const firebaseConfig = {
-      apiKey: "AIzaSyDv1S-UU0-CORLOYEaOIYqh5YqgjxXHIqs",
-      authDomain: "ghatparstore.firebaseapp.com",
-      projectId: "ghatparstore",
-      storageBucket: "ghatparstore.firebasestorage.app",
-      messagingSenderId: "395013404803",
-      appId: "1:395013404803:web:b8fa605483e94a1a30c3b6",
-      measurementId: "G-RYNRH76Z97",
+  const firebaseConfig = {
+    apiKey: "AIzaSyDv1S-UU0-CORLOYEaOIYqh5YqgjxXHIqs",
+    authDomain: "ghatparstore.firebaseapp.com",
+    projectId: "ghatparstore",
+    storageBucket: "ghatparstore.firebasestorage.app",
+    messagingSenderId: "395013404803",
+    appId: "1:395013404803:web:b8fa605483e94a1a30c3b6",
+    measurementId: "G-RYNRH76Z97",
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+  const analytics = getAnalytics(app);
+  const auth = getAuth(app);
+
+  document.addEventListener("DOMContentLoaded", () => {
+    const loginForm = document.getElementById("loginFormElement");
+    const signupForm = document.getElementById("signupFormElement");
+    const forgotForm = document.getElementById("forgotFormElement");
+
+    const passwordInput = document.getElementById("password");
+    const confirmPasswordInput = document.getElementById("confirmPassword");
+    const togglePasswordBtn = document.getElementById("togglePassword");
+    const toggleConfirmPasswordBtn = document.getElementById("toggleConfirmPassword");
+    const passwordMatchWarning = document.getElementById("passwordMatchWarning");
+
+    togglePasswordBtn?.addEventListener("click", () => {
+      const type = passwordInput.type === "password" ? "text" : "password";
+      passwordInput.type = type;
+      togglePasswordBtn.firstElementChild.className = type === "password" ? "fas fa-eye" : "fas fa-eye-slash";
+    });
+
+    toggleConfirmPasswordBtn?.addEventListener("click", () => {
+      const type = confirmPasswordInput.type === "password" ? "text" : "password";
+      confirmPasswordInput.type = type;
+      toggleConfirmPasswordBtn.firstElementChild.className = type === "password" ? "fas fa-eye" : "fas fa-eye-slash";
+    });
+
+    const validatePasswords = () => {
+      if (!passwordInput.value || !confirmPasswordInput.value) {
+        passwordMatchWarning.classList.add("visually-hidden");
+        return;
+      }
+      if (passwordInput.value !== confirmPasswordInput.value) {
+        passwordMatchWarning.classList.remove("visually-hidden");
+      } else {
+        passwordMatchWarning.classList.add("visually-hidden");
+      }
     };
 
-    const app = initializeApp(firebaseConfig);
-    const analytics = getAnalytics(app);
-    const auth = getAuth(app);
+    passwordInput?.addEventListener("input", validatePasswords);
+    confirmPasswordInput?.addEventListener("input", validatePasswords);
 
-    // Show/hide forms
-    function showForm(formId) {
-      document.querySelectorAll('.modal-body > div').forEach(form => {
-        form.classList.add('d-none');
-      });
-      document.getElementById(formId).classList.remove('d-none');
+    const setLoading = (form, isLoading) => {
+      const button = form.querySelector("button[type='submit']");
+      button.disabled = isLoading;
+      button.innerText = isLoading ? "Please wait..." : button.getAttribute("data-original-text") || "Submit";
+    };
+
+    const clearErrorMessages = () => {
+      document.querySelectorAll(".form-text.text-danger").forEach(el => el.classList.add("visually-hidden"));
+    };
+
+    const showForm = (formId) => {
+      document.querySelectorAll('.modal-body > div').forEach(div => div.classList.add("d-none"));
+      document.getElementById(formId).classList.remove("d-none");
+
       const titleMap = {
         loginForm: "Login",
         signupForm: "Sign Up",
-        forgotForm: "Reset Password"
+        forgotForm: "Reset Password",
       };
-      document.getElementById('authModalTitle').innerText = titleMap[formId];
-    }
+      document.getElementById("authModalTitle").innerText = titleMap[formId];
+      clearErrorMessages();
+    };
 
-    // Password visibility toggles
-    const passwordInput = document.getElementById('password');
-    const confirmPasswordInput = document.getElementById('confirmPassword');
-    const togglePasswordBtn = document.getElementById('togglePassword');
-    const toggleConfirmPasswordBtn = document.getElementById('toggleConfirmPassword');
-    const passwordMatchWarning = document.getElementById('passwordMatchWarning');
+    window.showForm = showForm;
 
-    togglePasswordBtn?.addEventListener('click', () => {
-      const type = passwordInput.type === 'password' ? 'text' : 'password';
-      passwordInput.type = type;
-      togglePasswordBtn.firstElementChild.className = type === 'password' ? 'fas fa-eye' : 'fas fa-eye-slash';
-    });
-
-    toggleConfirmPasswordBtn?.addEventListener('click', () => {
-      const type = confirmPasswordInput.type === 'password' ? 'text' : 'password';
-      confirmPasswordInput.type = type;
-      toggleConfirmPasswordBtn.firstElementChild.className = type === 'password' ? 'fas fa-eye' : 'fas fa-eye-slash';
-    });
-
-    // Validate confirm password live
-    confirmPasswordInput?.addEventListener('input', () => {
-      if (confirmPasswordInput.value !== passwordInput.value) {
-        passwordMatchWarning.style.display = 'block';
-      } else {
-        passwordMatchWarning.style.display = 'none';
-      }
-    });
-
-    // Handle login
-    const loginForm = document.getElementById('loginFormElement');
-    loginForm.addEventListener('submit', async (e) => {
+    loginForm.addEventListener("submit", async (e) => {
       e.preventDefault();
-      const email = loginForm.querySelector('input[type="email"]').value;
-      const password = loginForm.querySelector('input[type="password"]').value;
+      clearErrorMessages();
+
+      const email = loginForm.querySelector("input[type='email']").value.trim();
+      const password = loginForm.querySelector("input[type='password']").value;
+      const rememberMeChecked = document.getElementById("rememberMe").checked;
+
+      setLoading(loginForm, true);
+
       try {
+        await setPersistence(auth, rememberMeChecked ? browserLocalPersistence : browserSessionPersistence);
         await signInWithEmailAndPassword(auth, email, password);
-        alert("Logged in successfully!");
-        // Close modal
-        const modal = bootstrap.Modal.getInstance(document.getElementById('authModal'));
-        modal.hide();
+        // Redirect to dashboard
+        window.location.href = "dashboard.html";
+
       } catch (error) {
         alert("Login failed: " + error.message);
+      } finally {
+        setLoading(loginForm, false);
       }
     });
 
-    // Handle signup
-    const signupForm = document.getElementById('signupFormElement');
-    signupForm.addEventListener('submit', async (e) => {
+    signupForm.addEventListener("submit", async (e) => {
       e.preventDefault();
+      clearErrorMessages();
 
-      const fullname = signupForm.querySelector('#fullname').value.trim();
-      const email = signupForm.querySelector('#email').value.trim();
-      const countryCode = signupForm.querySelector('#countryCode').value;
-      const number = signupForm.querySelector('#number').value.trim();
-      const password = signupForm.querySelector('#password').value;
-      const confirmPassword = signupForm.querySelector('#confirmPassword').value;
+      const fullname = document.getElementById("fullname").value.trim();
+      const countryCode = document.getElementById("countryCode").value;
+      const number = document.getElementById("number").value.trim();
+      const email = document.getElementById("email").value.trim();
+      const password = passwordInput.value;
+      const confirmPassword = confirmPasswordInput.value;
 
       if (password !== confirmPassword) {
-        alert("Passwords do not match!");
-        return;
-      }
-      if (!fullname || !email || !number) {
-        alert("Please fill in all fields.");
+        document.getElementById("passwordMatchWarning").classList.remove("visually-hidden");
         return;
       }
 
+      const phonePattern = /^\d{7,15}$/;
+      if (!phonePattern.test(number)) {
+        document.getElementById("phoneError").textContent = "Invalid phone number.";
+        document.getElementById("phoneError").classList.remove("visually-hidden");
+        return;
+      }
+
+      setLoading(signupForm, true);
+
       try {
-        await createUserWithEmailAndPassword(auth, email, password);
-        alert("Account created successfully! You can now log in.");
-        showForm('loginForm');
+        const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+        const user = userCredential.user;
+
+        await setDoc(doc(db, "users", user.uid), {
+          fullname,
+          email,
+          phone: countryCode + number,
+          createdAt: new Date(),
+        });
+
+        alert("Account created successfully!");
+        showForm("loginForm");
       } catch (error) {
         alert("Signup failed: " + error.message);
+      } finally {
+        setLoading(signupForm, false);
       }
     });
 
-    // Handle forgot password
-    const forgotForm = document.getElementById('forgotFormElement');
-    forgotForm.addEventListener('submit', async (e) => {
+    forgotForm.addEventListener("submit", async (e) => {
       e.preventDefault();
-      const email = forgotForm.querySelector('input[type="email"]').value;
+      const email = forgotForm.querySelector("input[type='email']").value.trim();
+
       try {
         await sendPasswordResetEmail(auth, email);
         alert("Password reset email sent!");
-        showForm('loginForm');
+        showForm("loginForm");
       } catch (error) {
-        alert("Error sending reset email: " + error.message);
+        alert("Error: " + error.message);
       }
     });
+  });
+</script>
 
-    // Expose showForm to global scope so links can call it
-    window.showForm = showForm;
-  </script>
+  
 </body>
 </html>
